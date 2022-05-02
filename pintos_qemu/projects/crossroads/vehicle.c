@@ -152,14 +152,7 @@ void vehicle_loop(void *_vi)
 		/* Do not move until the unitstep has progressed */
 		//sema_down(&(vi->moved));
 		sema_down(&sem_unitstep);
-		if (sem_unitstep.value == 0) {
-			unitstep_changed();
-			crossroads_step++;
-
-			for (int i=0; i<vi_cnt; i++) {
-				sema_up(&sem_unitstep);
-			}
-		}
+		
 
 		/* vehicle main code */
 		res = try_move(start, dest, step, vi);
@@ -172,6 +165,15 @@ void vehicle_loop(void *_vi)
 		/* termination condition. */ 
 		if (res == 0) {
 			break;
+		}
+
+		if (sem_unitstep.value == 0) {
+			unitstep_changed();
+			crossroads_step++;
+
+			for (int i=0; i<vi_cnt; i++) {
+				sema_up(&sem_unitstep);
+			}
 		}
 
 	}	
