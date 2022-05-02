@@ -43,14 +43,12 @@ void wait_intersect(struct vehicle_info *vi) {
 
     /* vehicle is in intersection */
     if (sem_first.value == 1 && sem_left.value == 1 && sem_right.value == 1 && sem_opp.value == 1) {
+        /* actual moved */
         sema_down(&vi->moved);
         sema_down(&sem_first);
         allowed_list[vi->start-'A'] = vi;
         entered = vi;
         return;
-    } else {
-        // blocked: unitstep count
-        sema_down(&vi->moved);
     }
 
     /* When a vehicle that has already entered exists, additional entry is possible */
@@ -58,6 +56,7 @@ void wait_intersect(struct vehicle_info *vi) {
 
         // vi is to the left of the enterted
         if (vi->start == get_left(entered->start) && allow_enter(vi)) {
+            // will blocked
             if (sem_left.value == 0)
                 sema_down(&(vi->moved));
             sema_down(&sem_left);
@@ -66,6 +65,7 @@ void wait_intersect(struct vehicle_info *vi) {
         }
         // vi is to the right of the entered
         else if (vi->start == get_right(entered->start) && allow_enter(vi)) {
+            // will blocked
             if (sem_right.value == 0)
                 sema_down(&(vi->moved));
             sema_down(&sem_right);
@@ -74,6 +74,7 @@ void wait_intersect(struct vehicle_info *vi) {
         }
         // vi is to the opposite of the entered
         else if (vi->start == get_opposite(entered->start) && allow_enter(vi)) {
+            // will blocked
             if (sem_opp.value == 0)
                 sema_down(&(vi->moved));
             sema_down(&sem_opp);
@@ -82,8 +83,11 @@ void wait_intersect(struct vehicle_info *vi) {
         }
 
     } else {
-        if (sem_first.value == 0)
+        // will blocked
+        //if (sem_first.value == 0)
             sema_down(&(vi->moved));
+
+        /* wait for enter the intersection */
         sema_down(&sem_first);
     }
 
