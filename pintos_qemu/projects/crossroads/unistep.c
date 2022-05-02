@@ -43,9 +43,6 @@ void check_unistep() {
 
             unitstep_changed();
             crossroads_step++;
-
-            if (released)
-                break;
         }
 
     }
