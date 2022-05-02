@@ -53,7 +53,8 @@ void map_draw(void)
 	printf("unit step: %d\n", crossroads_step);
 
 	// debug
-	printf("entered: %c\n", entered->id);
+	if (entered != NULL)
+		printf("entered: %c\n", entered->id);
 	printf("vi_list.moved: ");
 	for (int i=0; i<vi_cnt; i++) {
 		if (vi_list[i] != NULL)
