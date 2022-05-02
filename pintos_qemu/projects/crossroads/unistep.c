@@ -29,10 +29,6 @@ void check_unitstep() {
     char flag;
 
     while (1) {
-        struct lock step_lock;
-        lock_init(&step_lock);
-        lock_acquire(&step_lock);
-
         flag = 1;
 
         for (i=0; i<vi_cnt; i++) {
@@ -49,11 +45,9 @@ void check_unitstep() {
             crossroads_step++;
 
             if (sem_released.value == 0) { 
-                lock_release(&step_lock);
                 break;
             }
         }
 
-        lock_release(&step_lock);
     }
 }

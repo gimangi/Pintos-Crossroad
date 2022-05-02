@@ -77,7 +77,7 @@ static int try_move(int start, int dest, int step, struct vehicle_info *vi)
 		}
 	}
 
-	/* check is intersection area */
+	/* check enter the intersection area */
 	if (!is_intersect(pos_cur) && is_intersect(pos_next)) {
 		wait_intersect(vi);
 	}

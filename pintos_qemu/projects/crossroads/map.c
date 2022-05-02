@@ -1,6 +1,8 @@
 
 #include "projects/crossroads/map.h"
-
+// debug
+#include "projects/crossroads/unistep.h"
+#include "projects/crossroads/intersection.h"
 
 #define ANSI_NONE "\033[0m"
 #define ANSI_BLACK "\033[30m"
@@ -49,6 +51,15 @@ void map_draw(void)
 		printf("\n");
 	}
 	printf("unit step: %d\n", crossroads_step);
+
+	// debug
+	printf("entered: %c\n", entered->id);
+	printf("vi_list.moved: ");
+	for (int i=0; i<vi_cnt; i++) {
+		printf("%d-%d ", i, vi_list[i]->moved.value);
+	}
+	printf("\n");
+	//
 	gotoxy(0, 0);
 }
 
