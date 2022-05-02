@@ -30,6 +30,10 @@ static int is_turn_right(struct vehicle_info *vi) {
     return get_right(vi->start) == vi->dest;
 }
 
+static int is_sem_all_ready() {
+    return (sem_first.value == 1 && sem_left.value == 1 && sem_right.value == 1 && sem_opp.value == 1);
+}
+
 int is_intersect(struct position pos) {
     return (pos.col >= 2 && pos.col <= 4 && pos.row >= 2 && pos.row <= 4);
 }
@@ -42,7 +46,7 @@ void wait_intersect(struct vehicle_info *vi) {
     }
 
     /* vehicle is in intersection */
-    if (sem_first.value == 1 && sem_left.value == 1 && sem_right.value == 1 && sem_opp.value == 1) {
+    if (is_sem_all_ready) {
         /* actual moved */
         sema_down(&vi->moved);
         sema_down(&sem_first);
@@ -94,7 +98,7 @@ void wait_intersect(struct vehicle_info *vi) {
 }
 
 void signal_intersect(struct vehicle_info *vi) {
-
+    
     switch(vi->allow_dir) {
         case OPPOITE:
             sema_up(&sem_opp);
@@ -106,10 +110,12 @@ void signal_intersect(struct vehicle_info *vi) {
             sema_up(&sem_right);
             break;
         default:
-            entered = NULL;
             sema_up(&sem_first);
     }
     allowed_list[vi->start-'A'] = NULL;
+
+    if (is_sem_all_ready)
+        entered = NULL;
 }
 
 int allow_enter(struct vehicle_info *target) {
