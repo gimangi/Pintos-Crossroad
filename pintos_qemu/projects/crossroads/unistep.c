@@ -27,8 +27,7 @@ void check_unistep() {
     int i;
     char flag;
 
-    while (is_finished() != 0) {
-
+    while (1) {
         flag = 1;
 
         for (i=0; i<vi_cnt; i++) {
@@ -43,6 +42,9 @@ void check_unistep() {
 
             unitstep_changed();
             crossroads_step++;
+
+            if (is_finished())
+                break;
         }
 
     }
