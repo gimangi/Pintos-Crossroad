@@ -110,7 +110,7 @@ void init_on_mainthread(int thread_cnt){
 	vi_list = malloc(sizeof(struct vehicle_info*) * thread_cnt);
 
 	/* unistep check thread */
-	thread_create("unistep", PRI_UNISTEP, check_unistep, NULL);
+	//thread_create("unistep", PRI_UNISTEP, check_unistep, NULL);
 
 	/* vehicles enter the intersection */
 	entered = NULL;
@@ -150,6 +150,8 @@ void vehicle_loop(void *_vi)
 
 		/* Do not move until the unitstep has progressed */
 		sema_down(&(vi->moved));
+
+		check_unistep();
 
 		/* vehicle main code */
 		res = try_move(start, dest, step, vi);
