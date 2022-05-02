@@ -6,7 +6,7 @@
 #include "threads/synch.h"
 
 extern int crossroads_step;
-semaphore sem_released;
+struct semaphore sem_released;
 
 void map_draw(void);
 void map_draw_vehicle(char id, int row, int col);
