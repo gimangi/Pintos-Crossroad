@@ -24,7 +24,7 @@ static int is_finished() {
     return (ret == 0);
 }
 
-void check_unistep() {
+void check_unitstep() {
     int i;
     char flag;
 
@@ -37,7 +37,7 @@ void check_unistep() {
                 flag = 0;
             }
         }
-        // increase unistep
+        // increase unitstep
         if (flag) {
             release_move();
 

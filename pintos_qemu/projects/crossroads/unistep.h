@@ -7,6 +7,4 @@
 struct vehicle_info **vi_list;
 int vi_cnt;
 
-struct semaphore sem_unitstep;
-
-void check_unistep();
+void check_unitstep();
