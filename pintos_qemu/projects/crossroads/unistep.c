@@ -6,7 +6,8 @@ static void release_move() {
     int i;
 
     for (i=0; i<vi_cnt; i++) {
-        sema_up(&(vi_list[i]->moved));
+        if (vi_list[i] != NULL)
+            sema_up(&(vi_list[i]->moved));
     }
 }
 
@@ -17,7 +18,7 @@ void check_unistep() {
 
         for (i=0; i<vi_cnt; i++) {
         // Vehicle that have not yet moved 
-            if (vi_list[i]->moved.value == 1)
+            if (vi_list[i] != NULL && vi_list[i]->state != VEHICLE_STATUS_FINISHED && vi_list[i]->moved.value == 1)
                 return;
         }
 
