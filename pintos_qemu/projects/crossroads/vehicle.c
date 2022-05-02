@@ -149,6 +149,7 @@ void vehicle_loop(void *_vi)
 	while (1) {
 
 		/* Do not move until the unitstep has progressed */
+		sema_down(&(vi->moved));
 		
 		/* vehicle main code */
 		res = try_move(start, dest, step, vi);
