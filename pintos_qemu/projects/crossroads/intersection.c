@@ -48,6 +48,9 @@ void wait_intersect(struct vehicle_info *vi) {
         allowed_list[vi->start-'A'] = vi;
         entered = vi;
         return;
+    } else {
+        // blocked: unitstep count
+        sema_down(&vi->moved);
     }
 
     /* When a vehicle that has already entered exists, additional entry is possible */
