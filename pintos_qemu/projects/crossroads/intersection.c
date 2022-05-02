@@ -38,6 +38,7 @@ void wait_intersect(struct vehicle_info *vi) {
     /* vehicle is in intersection */
     if (sem_first.value == 1) {
         sema_down(&sem_first);
+        allowed_list[vi->start-'A'] = vi;
         entered = vi;
         return;
     }
