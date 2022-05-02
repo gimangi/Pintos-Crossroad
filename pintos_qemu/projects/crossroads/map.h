@@ -6,6 +6,7 @@
 
 
 extern int crossroads_step;
+char released;
 
 void map_draw(void);
 void map_draw_vehicle(char id, int row, int col);

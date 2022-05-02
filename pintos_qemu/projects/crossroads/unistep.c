@@ -3,6 +3,7 @@
 #include "projects/crossroads/unistep.h"
 #include "projects/crossroads/ats.h"
 #include "projects/crossroads/crossroads.h"
+#include "projects/crossroads/map.h"
 
 static void release_move() {
     int i;
@@ -43,31 +44,9 @@ void check_unistep() {
             unitstep_changed();
             crossroads_step++;
 
-            if (is_finished())
+            if (released)
                 break;
         }
 
     }
-}
-
-void manage_unistep() {
-    int i;
-    char flag;
-
-    flag = 1;
-
-        for (i=0; i<vi_cnt; i++) {
-            // Vehicle that have not yet moved 
-            if (vi_list[i] != NULL && vi_list[i]->state != VEHICLE_STATUS_FINISHED && vi_list[i]->moved.value == 1) {
-                flag = 0;
-            }
-        }
-        // increase unistep
-        if (flag) {
-            release_move();
-
-            unitstep_changed();
-            crossroads_step++;
-        }
-
 }
