@@ -89,8 +89,9 @@ static int try_move(int start, int dest, int step, struct vehicle_info *vi)
 	}
 
 	/* lock next position */
-	if (!lock_try_acquire(&vi->map_locks[pos_next.row][pos_next.col]))
+	if (vi->map_locks[pos_next.row][pos_next.col].semaphore.value < 0)
 		sema_down(&(vi->moved));
+	lock_try_acquire(&vi->map_locks[pos_next.row][pos_next.col]);
 	if (vi->state == VEHICLE_STATUS_READY) {
 		/* start this vehicle */
 		vi->state = VEHICLE_STATUS_RUNNING;
