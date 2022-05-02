@@ -106,6 +106,7 @@ void init_on_mainthread(int thread_cnt){
 	int i;
 
 	/* vehicle list for unistep */
+	vi_cnt = 0;
 	vi_list = malloc(sizeof(struct vehicle_info*) * thread_cnt);
 
 	/* vehicles enter the intersection */
