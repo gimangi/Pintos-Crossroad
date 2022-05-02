@@ -55,6 +55,14 @@ void map_draw(void)
 	// debug
 	if (entered != NULL)
 		printf("entered: %c\n", entered->id);
+	if (allowed_list[0] != NULL)
+		printf("allowed A: %c\n", allowed_list[0]->id);
+		if (allowed_list[1] != NULL)
+		printf("allowed B: %c\n", allowed_list[1]->id);
+		if (allowed_list[2] != NULL)
+		printf("allowed C: %c\n", allowed_list[2]->id);
+		if (allowed_list[3] != NULL)
+		printf("allowed D: %c\n", allowed_list[3]->id);
 	printf("vi_list.moved: ");
 	for (int i=0; i<vi_cnt; i++) {
 		if (vi_list[i] != NULL)
