@@ -35,6 +35,7 @@ void check_unistep() {
         for (i=0; i<vi_cnt; i++) {
             // Vehicle that have not yet moved 
             if (vi_list[i] != NULL && vi_list[i]->state != VEHICLE_STATUS_FINISHED && vi_list[i]->moved.value == 1) {
+                print(vi_list[i]->id);
                 flag = 0;
             }
         }
