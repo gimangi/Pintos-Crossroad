@@ -111,6 +111,7 @@ void init_on_mainthread(int thread_cnt){
 
 	/* unistep check thread */
 	//thread_create("unistep", PRI_UNISTEP, check_unistep, NULL);
+	sema_init(&sem_unitstep, thread_cnt);
 
 	/* vehicles enter the intersection */
 	entered = NULL;
@@ -150,6 +151,15 @@ void vehicle_loop(void *_vi)
 
 		/* Do not move until the unitstep has progressed */
 		//sema_down(&(vi->moved));
+		sema_down(&sem_unitstep);
+		if (sem_unitstep.value == 0) {
+			unitstep_changed();
+			crossroads_step++;
+
+			for (int i=0; i<vi_cnt; i++) {
+				sema_up(&sem_unitstep);
+			}
+		}
 
 		/* vehicle main code */
 		res = try_move(start, dest, step, vi);
