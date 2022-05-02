@@ -9,8 +9,7 @@ static void release_move() {
 
     for (i=0; i<vi_cnt; i++) {
         if (vi_list[i] != NULL)
-            //sema_up(&(vi_list[i]->moved));
-            sema_init(&(vi_list[i]->moved), 1);
+            sema_up(&(vi_list[i]->moved));
     }
 }
 
@@ -18,7 +17,7 @@ static int is_finished() {
     int i;
     int ret = vi_cnt;
     for (i=0; i<vi_cnt; i++) {
-        if (vi_list[i] == NULL || vi_list[i]->state == VEHICLE_STATUS_FINISHED)
+        if (vi_list[i] != NULL && vi_list[i]->state == VEHICLE_STATUS_FINISHED)
             ret--;
     }
     return ret;
@@ -28,10 +27,7 @@ void check_unistep() {
     int i;
     char flag;
 
-    while (1) {
-
-        if (is_finished())
-            break;
+    while (is_finished() != 0) {
 
         flag = 1;
 
