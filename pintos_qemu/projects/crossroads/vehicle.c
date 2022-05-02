@@ -128,6 +128,10 @@ void init_on_mainthread(int thread_cnt){
 	sema_init(&sem_opp, 1);
 	sema_init(&sem_left, 1);
 	sema_init(&sem_right, 1);
+
+
+	// debug
+	ths = malloc(sizeof(struct thread*) * thread_cnt);
 }
 
 void vehicle_loop(void *_vi)
@@ -147,6 +151,7 @@ void vehicle_loop(void *_vi)
 	/* semaphore for moving in a unitstep */
 	sema_init(&(vi->moved), 1);
 	/* save to vi_list */
+	ths[vi_cnt] = thread_current();
 	vi_list[vi_cnt++] = vi;
 
 	step = 0;

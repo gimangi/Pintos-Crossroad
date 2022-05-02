@@ -63,13 +63,19 @@ void map_draw(void)
 		printf("allowed C: %c\n", allowed_list[2]->id);
 		if (allowed_list[3] != NULL)
 		printf("allowed D: %c\n", allowed_list[3]->id);
+	
 	printf("vi_list.moved: ");
 	for (int i=0; i<vi_cnt; i++) {
 		if (vi_list[i] != NULL)
 			printf("%d-%d ", i, vi_list[i]->moved.value);
 	}
+	printf("\nthreads(block): ");
+	for (int i=0; i<vi_cnt; i++) {
+		if (ths[i] != NULL)
+			printf("t%d-%d ", i, ths[i]->status);
+	}
 	printf("\n");
-	//
+	// ~debug
 	gotoxy(0, 0);
 }
 
