@@ -153,6 +153,7 @@ void vehicle_loop(void *_vi)
 
 		/* vehicle main code */
 		res = try_move(start, dest, step, vi);
+		
 
 		if (res == 1) {
 			step++;

@@ -1,3 +1,5 @@
+
+#include <stdio.h>
 #include "projects/crossroads/unistep.h"
 #include "projects/crossroads/ats.h"
 #include "projects/crossroads/crossroads.h"
@@ -7,7 +9,8 @@ static void release_move() {
 
     for (i=0; i<vi_cnt; i++) {
         if (vi_list[i] != NULL)
-            sema_up(&(vi_list[i]->moved));
+            //sema_up(&(vi_list[i]->moved));
+            sema_init(&(vi_list[i]->moved), 1);
     }
 }
 
@@ -35,7 +38,6 @@ void check_unistep() {
         for (i=0; i<vi_cnt; i++) {
             // Vehicle that have not yet moved 
             if (vi_list[i] != NULL && vi_list[i]->state != VEHICLE_STATUS_FINISHED && vi_list[i]->moved.value == 1) {
-                print(vi_list[i]->id);
                 flag = 0;
             }
         }
