@@ -93,7 +93,7 @@ void signal_intersect(struct vehicle_info *vi) {
 int allow_enter(struct vehicle_info *target) {
     int i;
     for (i=0; i<4; i++) {
-        if (!allow_direction(allowed_list[i], target))
+        if (allowed_list[i] != NULL && !allow_direction(allowed_list[i], target))
             return 0;
     }
     return 1;
