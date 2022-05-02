@@ -20,7 +20,7 @@ static int is_finished() {
         if (vi_list[i] != NULL && vi_list[i]->state == VEHICLE_STATUS_FINISHED)
             ret--;
     }
-    return ret;
+    return (ret == 0);
 }
 
 void check_unistep() {
