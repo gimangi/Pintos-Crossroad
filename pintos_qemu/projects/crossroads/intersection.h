@@ -9,7 +9,9 @@ struct semaphore sem_opp;
 struct semaphore sem_left;
 struct semaphore sem_right;
 
+// vehicle enter the intersection first
 struct vehicle_info *entered;
+// vehicles list enter the intersection
 struct vehicle_info **allowed_list;
 
 int is_intersect(struct position pos);

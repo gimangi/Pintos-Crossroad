@@ -7,6 +7,7 @@
 #include "projects/crossroads/map.h"
 #include "projects/crossroads/ats.h"
 #include "projects/crossroads/intersection.h"
+#include "projects/crossroads/unistep.h"
 
 /* path. A:0 B:1 C:2 D:3 */
 const struct position vehicle_path[4][4][10] = {
@@ -103,13 +104,18 @@ static int try_move(int start, int dest, int step, struct vehicle_info *vi)
 void init_on_mainthread(int thread_cnt){
 	/* Called once before spawning threads */
 	int i;
-	// vehicles enter the intersection
+
+	/* vehicle list for unistep */
+	vi_list = malloc(sizeof(struct vehicle_info*) * thread_cnt);
+
+	/* vehicles enter the intersection */
 	entered = NULL;
 	allowed_list = malloc(sizeof(struct vehicle_info*) * 4);
 	for (i=0; i<4; i++) {
 		allowed_list[i] = NULL;
 	}
 
+	/* intersection semaphores */
 	sema_init(&sem_first, 1);
 	sema_init(&sem_opp, 1);
 	sema_init(&sem_left, 1);
@@ -130,8 +136,16 @@ void vehicle_loop(void *_vi)
 	vi->state = VEHICLE_STATUS_READY;
 	vi->allow_dir = UNDEFINED;
 
+	/* semaphore for moving in a unitstep */
+	sema_init(&(vi->moved), 1);
+	/* save to vi_list */
+	vi_list[vi_cnt++] = vi;
+
 	step = 0;
 	while (1) {
+		/* Do not move until the unitstep has progressed */
+		sema_down(&(vi->moved));
+
 		/* vehicle main code */
 		res = try_move(start, dest, step, vi);
 		if (res == 1) {
@@ -143,8 +157,9 @@ void vehicle_loop(void *_vi)
 			break;
 		}
 
-		/* unitstep change! */
-		unitstep_changed();
+		/* unitstep change? */
+		check_unistep();
+
 	}	
 
 	/* status transition must happen before sema_up */

@@ -1,6 +1,7 @@
 
 #include "projects/crossroads/intersection.h"
 
+/* based on A, B, C, D */
 const char opposite[4] = {'C', 'D', 'A', 'B'};
 const char left[4] = {'D', 'A', 'B', 'C'};
 const char right[4] = {'B', 'C', 'D', 'A'};
@@ -35,6 +36,11 @@ int is_intersect(struct position pos) {
 
 void wait_intersect(struct vehicle_info *vi) {
 
+    /* vehicle going straight have priority */
+    if (is_straight(vi)) {
+        thread_set_priority(thread_get_priority() + 1);
+    }
+
     /* vehicle is in intersection */
     if (sem_first.value == 1) {
         sema_down(&sem_first);
@@ -43,7 +49,7 @@ void wait_intersect(struct vehicle_info *vi) {
         return;
     }
 
-// 동시에 들어가도 맨 뒤에 들어온 애까지 다 나가기 전에는 sema up 하면 안되는데...
+    /* When a vehicle that has already entered exists, additional entry is possible */
     if ( entered != NULL && allow_direction(entered, vi) ) {
 
         // vi is to the left of the enterted

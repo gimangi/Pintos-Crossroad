@@ -2,6 +2,7 @@
 #define __PROJECTS_PROJECT1_VEHICLE_H__
 
 #include "projects/crossroads/position.h"
+#include "threads/synch.h"
 
 #define VEHICLE_STATUS_READY 	0
 #define VEHICLE_STATUS_RUNNING	1
@@ -18,6 +19,7 @@ struct vehicle_info {
 	char start;
 	char dest;
 	char allow_dir;
+	struct semaphore moved;
 	struct position position;
 	struct lock **map_locks;
 };
