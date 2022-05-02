@@ -13,14 +13,18 @@ static void release_move() {
 void check_unistep() {
     int i;
 
-    for (i=0; i<vi_cnt; i++) {
+    while (1) {
+
+        for (i=0; i<vi_cnt; i++) {
         // Vehicle that have not yet moved 
         if ((vi_list[i]->state == VEHICLE_STATUS_READY &&  vi_list[i]->moved.value == 1) || vi_list[i]->state == VEHICLE_STATUS_RUNNING)
             return;
+        }
+
+        release_move();
+
+        unitstep_changed();
+        crossroads_step++;
     }
-
-    release_move();
-
-    unitstep_changed();
-    crossroads_step++;
+    
 }
