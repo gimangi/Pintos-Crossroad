@@ -56,7 +56,8 @@ void map_draw(void)
 	printf("entered: %c\n", entered->id);
 	printf("vi_list.moved: ");
 	for (int i=0; i<vi_cnt; i++) {
-		printf("%d-%d ", i, vi_list[i]->moved.value);
+		if (vi_list[i] != NULL)
+			printf("%d-%d ", i, vi_list[i]->moved.value);
 	}
 	printf("\n");
 	//
