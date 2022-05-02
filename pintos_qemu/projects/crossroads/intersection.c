@@ -84,7 +84,7 @@ void wait_intersect(struct vehicle_info *vi) {
 
     } else {
         // will blocked
-        //if (sem_first.value == 0)
+        if (sem_first.value == 0)
             sema_down(&(vi->moved));
 
         /* wait for enter the intersection */
@@ -106,10 +106,10 @@ void signal_intersect(struct vehicle_info *vi) {
             sema_up(&sem_right);
             break;
         default:
+            entered = NULL;
             sema_up(&sem_first);
     }
     allowed_list[vi->start-'A'] = NULL;
-    entered = NULL;
 }
 
 int allow_enter(struct vehicle_info *target) {
