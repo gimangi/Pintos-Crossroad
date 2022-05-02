@@ -73,6 +73,8 @@ static int try_move(int start, int dest, int step, struct vehicle_info *vi)
 			vi->position.row = vi->position.col = -1;
 			/* release previous */
 			lock_release(&vi->map_locks[pos_cur.row][pos_cur.col]);
+
+			sema_down(&(vi->moved));
 			return 0;
 		}
 	}
@@ -87,7 +89,8 @@ static int try_move(int start, int dest, int step, struct vehicle_info *vi)
 	}
 
 	/* lock next position */
-	lock_acquire(&vi->map_locks[pos_next.row][pos_next.col]);
+	if (!lock_try_acquire(&vi->map_locks[pos_next.row][pos_next.col]))
+		sema_down(&(vi->moved));
 	if (vi->state == VEHICLE_STATUS_READY) {
 		/* start this vehicle */
 		vi->state = VEHICLE_STATUS_RUNNING;
@@ -97,6 +100,7 @@ static int try_move(int start, int dest, int step, struct vehicle_info *vi)
 	}
 	/* update position */
 	vi->position = pos_next;
+	sema_down(&(vi->moved));
 	
 	return 1;
 }
@@ -110,7 +114,8 @@ void init_on_mainthread(int thread_cnt){
 	vi_list = malloc(sizeof(struct vehicle_info*) * thread_cnt);
 
 	/* unistep check thread */
-	thread_create("unistep", PRI_UNISTEP, check_unitstep, NULL);
+	thread_create("unitstep", PRI_UNISTEP, check_unitstep, NULL);
+	sema_init(&sem_released, 1);
 
 	/* vehicles enter the intersection */
 	entered = NULL;
@@ -149,7 +154,7 @@ void vehicle_loop(void *_vi)
 	while (1) {
 
 		/* Do not move until the unitstep has progressed */
-		sema_down(&(vi->moved));
+		//sema_down(&(vi->moved));
 		
 		/* vehicle main code */
 		res = try_move(start, dest, step, vi);

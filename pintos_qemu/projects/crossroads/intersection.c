@@ -43,6 +43,8 @@ void wait_intersect(struct vehicle_info *vi) {
 
     /* vehicle is in intersection */
     if (sem_first.value == 1) {
+        if (sem_first.value == 0)
+            sema_down(&(vi->moved));
         sema_down(&sem_first);
         allowed_list[vi->start-'A'] = vi;
         entered = vi;
@@ -54,24 +56,32 @@ void wait_intersect(struct vehicle_info *vi) {
 
         // vi is to the left of the enterted
         if (vi->start == get_left(entered->start) && allow_enter(vi)) {
+            if (sem_left.value == 0)
+                sema_down(&(vi->moved));
             sema_down(&sem_left);
             allowed_list[vi->start-'A'] = vi;
             vi->allow_dir = LEFT;
         }
         // vi is to the right of the entered
         else if (vi->start == get_right(entered->start) && allow_enter(vi)) {
+            if (sem_right.value == 0)
+                sema_down(&(vi->moved));
             sema_down(&sem_right);
             allowed_list[vi->start-'A'] = vi;
             vi->allow_dir = RIGHT;
         }
         // vi is to the opposite of the entered
         else if (vi->start == get_opposite(entered->start) && allow_enter(vi)) {
+            if (sem_opp.value == 0)
+                sema_down(&(vi->moved));
             sema_down(&sem_opp);
             allowed_list[vi->start-'A'] = vi;
             vi->allow_dir = OPPOITE;
         }
 
     } else {
+        if (sem_first.value == 0)
+            sema_down(&(vi->moved));
         sema_down(&sem_first);
     }
 

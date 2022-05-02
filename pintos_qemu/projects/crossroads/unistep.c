@@ -43,6 +43,10 @@ void check_unitstep() {
 
             unitstep_changed();
             crossroads_step++;
+
+            if (sem_released.value == 0) { 
+                break;
+            }
         }
 
     }

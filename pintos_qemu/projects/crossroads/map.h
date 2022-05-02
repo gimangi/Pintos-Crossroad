@@ -3,10 +3,10 @@
 
 #include <stdio.h>
 #include "projects/crossroads/position.h"
-
+#include "threads/synch.h"
 
 extern int crossroads_step;
-char released;
+semaphore sem_released;
 
 void map_draw(void);
 void map_draw_vehicle(char id, int row, int col);
