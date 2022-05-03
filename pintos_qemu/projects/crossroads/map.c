@@ -87,6 +87,6 @@ void map_draw_vehicle(char id, int row, int col)
 
 void map_draw_reset(void)
 {
-	sema_down(&sem_released);
+	released = true;
 	clear();
 }

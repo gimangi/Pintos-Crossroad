@@ -50,7 +50,7 @@ void check_unitstep() {
             crossroads_step++;
 
 
-            if (sem_released.value == 0) { 
+            if (released) { 
                 break;
             }
             

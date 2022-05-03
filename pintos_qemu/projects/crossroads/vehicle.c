@@ -121,7 +121,6 @@ void init_on_mainthread(int thread_cnt){
 
 	/* unistep check thread */
 	thread_create("unitstep", PRI_UNISTEP, check_unitstep, NULL);
-	sema_init(&sem_released, 1);
 
 	/* vehicles enter the intersection */
 	entered = NULL;
@@ -157,9 +156,6 @@ void vehicle_loop(void *_vi)
 	vi_list[vi_cnt++] = vi;
 
 	step = 0;
-
-	/* first unitstep */
-	sema_down(&vi->stop);
 
 	while (1) {
 

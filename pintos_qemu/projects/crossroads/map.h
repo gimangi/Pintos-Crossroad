@@ -8,7 +8,7 @@
 #include "threads/thread.h"
 
 extern int crossroads_step;
-struct semaphore sem_released;
+bool released;
 
 void map_draw(void);
 void map_draw_vehicle(char id, int row, int col);
