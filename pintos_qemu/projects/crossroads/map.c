@@ -67,12 +67,7 @@ void map_draw(void)
 	printf("vi_list.moved: ");
 	for (int i=0; i<vi_cnt; i++) {
 		if (vi_list[i] != NULL)
-			printf("%d-%d ", i, vi_list[i]->moved.value);
-	}
-	printf("\nthreads(block): ");
-	for (int i=0; i<vi_cnt; i++) {
-		if (ths[i] != NULL)
-			printf("t%d-%d ", i, ths[i]->status);
+			printf("[%d]-mv%d-st%d ", i, vi_list[i]->moved.value, vi_list[i]->state);
 	}
 	printf("\n");
 	// ~debug

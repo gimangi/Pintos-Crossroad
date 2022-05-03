@@ -14,8 +14,5 @@ void map_draw(void);
 void map_draw_vehicle(char id, int row, int col);
 void map_draw_reset(void);
 
-//debug
-struct thread **ths;
-
 
 #endif /* __PROJECTS_PROJECT1_MAPDATA_H__ */
