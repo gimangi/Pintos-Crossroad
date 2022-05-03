@@ -18,6 +18,7 @@ struct vehicle_info {
 	char start;
 	char dest;
 	char allow_dir;
+	char debug;
 	struct semaphore moved;
 	struct position position;
 	struct lock **map_locks;
