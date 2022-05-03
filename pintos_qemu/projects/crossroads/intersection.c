@@ -98,6 +98,7 @@ void signal_intersect(struct vehicle_info *vi) {
     switch(vi->allow_dir) {
         case FIRST:
             sema_up(&sem_first);
+            break;
         case OPPOITE:
             sema_up(&sem_opp);
             break;
@@ -106,9 +107,9 @@ void signal_intersect(struct vehicle_info *vi) {
             break;
         case RIGHT:
             sema_up(&sem_right);
-            break;
     }
     allowed_list[vi->start-'A'] = NULL;
+    vi->allow_dir = UNDEFINED;
 
     if (is_sem_all_ready)
         entered = NULL;
