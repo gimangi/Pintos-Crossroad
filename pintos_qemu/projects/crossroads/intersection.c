@@ -63,24 +63,25 @@ void wait_intersect(struct vehicle_info *vi) {
             sema_down(&sem_left);
             allowed_list[vi->start-'A'] = vi;
             vi->allow_dir = LEFT;
-            //return;
+            return;
         }
         // vi is to the right of the entered
         else if (sem_right.value == 1 && vi->start == get_right(entered->start) && allow_enter(vi)) {
             sema_down(&sem_right);
             allowed_list[vi->start-'A'] = vi;
             vi->allow_dir = RIGHT;
-            //return;
+            return;
         }
         // vi is to the opposite of the entered
         else if (sem_opp.value == 1 && vi->start == get_opposite(entered->start) && allow_enter(vi)) {
             sema_down(&sem_opp);
             allowed_list[vi->start-'A'] = vi;
             vi->allow_dir = OPPOITE;
-            //return;
+            return;
         }
     }
 
+    sema_down(&vi->moved);
     /*
     // will blocked
     if (sem_first.value < 1)
