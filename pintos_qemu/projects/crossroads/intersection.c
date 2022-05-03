@@ -180,8 +180,7 @@ int allow_direction(struct vehicle_info *std, struct vehicle_info *target) {
                 return 1;
         }
         // target is right -> can (straight or turn right)
-        if (get_opposite(std->start) == target->start) {
-            if (is_straight(target) || is_turn_right(target))
+        if (get_right(std->start) == target->start) {
                 return 1;
         }
     
