@@ -25,7 +25,7 @@ static int is_finished() {
     return (ret == 0);
 }
 
-static int is_empty_waiter(struct semaphore *sem) {
+int is_empty_waiter(struct semaphore *sem) {
     return list_empty(&sem->waiters);
 }
 

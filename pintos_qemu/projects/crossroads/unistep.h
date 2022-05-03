@@ -8,3 +8,4 @@ struct vehicle_info **vi_list;
 int vi_cnt;
 
 void check_unitstep();
+int is_empty_waiter(struct semaphore *sem);
