@@ -71,6 +71,7 @@ void map_draw(void)
 	}
 	printf("\n");
 	printf("cur thread: %s", thread_current()->name);
+	printf("unitstep count: %d", mycount);
 	// ~debug
 	gotoxy(0, 0);
 }
