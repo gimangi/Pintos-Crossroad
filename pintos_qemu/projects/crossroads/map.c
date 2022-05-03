@@ -70,6 +70,7 @@ void map_draw(void)
 			printf("[%d]-mv%d-st%d ", i, vi_list[i]->moved.value, vi_list[i]->state);
 	}
 	printf("\n");
+	printf("cur thread: %s", thread_current()->name);
 	// ~debug
 	gotoxy(0, 0);
 }
