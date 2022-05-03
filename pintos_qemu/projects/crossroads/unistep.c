@@ -27,10 +27,8 @@ static int is_finished() {
 void check_unitstep() {
     int i;
     char flag;
-    mycount=0;
 
     while (1) {
-        mycount++;
         flag = 1;
 
         for (i=0; i<vi_cnt; i++) {
