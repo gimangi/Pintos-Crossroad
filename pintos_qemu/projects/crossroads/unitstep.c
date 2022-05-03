@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 #include <list.h>
-#include "projects/crossroads/unistep.h"
+#include "projects/crossroads/unitstep.h"
 #include "projects/crossroads/ats.h"
 #include "projects/crossroads/crossroads.h"
 #include "projects/crossroads/map.h"
@@ -24,6 +24,9 @@ void check_unitstep() {
     char flag;
 
     while (1) {
+        // prevent busy wait 
+        sema_down(&sem_unitstep);
+
         flag = 1;
 
         for (i=0; i<vi_cnt; i++) {
@@ -47,4 +50,11 @@ void check_unitstep() {
         }
 
     }
+}
+
+void step_point(struct vehicle_info *vi) {
+    ASSERT (vi != NULL);
+
+    sema_up(&sem_unitstep);
+    sema_down(&vi->stop);
 }

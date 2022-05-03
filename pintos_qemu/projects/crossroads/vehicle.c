@@ -7,7 +7,7 @@
 #include "projects/crossroads/map.h"
 #include "projects/crossroads/ats.h"
 #include "projects/crossroads/intersection.h"
-#include "projects/crossroads/unistep.h"
+#include "projects/crossroads/unitstep.h"
 
 /* path. A:0 B:1 C:2 D:3 */
 const struct position vehicle_path[4][4][10] = {
@@ -95,7 +95,7 @@ static int try_move(int start, int dest, int step, struct vehicle_info *vi)
 
 	
 	while (vi->map_locks[pos_next.row][pos_next.col].semaphore.value < 1) {
-		sema_down(&vi->stop);
+		step_point(vi);
 	}
 	/* lock next position */
 	lock_acquire(&vi->map_locks[pos_next.row][pos_next.col]);
@@ -121,6 +121,7 @@ void init_on_mainthread(int thread_cnt){
 	vi_list = malloc(sizeof(struct vehicle_info*) * thread_cnt);
 
 	/* unistep check thread */
+	sema_init(&sem_unitstep, 0);
 	thread_create("unitstep", PRI_UNISTEP, check_unitstep, NULL);
 
 	/* vehicles enter the intersection */
@@ -158,7 +159,7 @@ void vehicle_loop(void *_vi)
 
 	step = 0;
 
-	sema_down(&vi->stop);
+	step_point(vi);
 
 	while (1) {
 
@@ -179,7 +180,7 @@ void vehicle_loop(void *_vi)
 			break;
 		}
 
-		sema_down(&vi->stop);
+		step_point(vi);
 
 	}	
 

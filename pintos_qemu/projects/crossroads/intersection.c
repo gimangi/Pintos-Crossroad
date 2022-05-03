@@ -78,12 +78,12 @@ vi->debug=9;
 
     // blocked by intersection
     while (sem_first.value < 1) {
-        sema_down(&vi->stop);
+        step_point(vi);
     }
 
     sema_down(&sem_first);
     while (!(sem_left.value == 1 && sem_right.value == 1 && sem_opp.value == 1)) {
-        sema_down(&vi->stop);
+        step_point(vi);
     }
     allowed_list[vi->start-'A'] = vi;
     entered = vi;
