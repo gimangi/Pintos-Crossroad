@@ -77,8 +77,7 @@ vi->debug=9;
 
     // blocked by intersection
     while (sem_first.value < 1) {
-        if (vi->moved.value == 1)
-            sema_down(&vi->moved);
+        sema_down(&vi->stop);
     }
 
     sema_down(&sem_first);

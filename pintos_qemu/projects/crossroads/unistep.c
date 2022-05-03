@@ -1,5 +1,6 @@
 
 #include <stdio.h>
+#include <list.h>
 #include "projects/crossroads/unistep.h"
 #include "projects/crossroads/ats.h"
 #include "projects/crossroads/crossroads.h"
@@ -10,7 +11,7 @@ static void release_move() {
 
     for (i=0; i<vi_cnt; i++) {
         if (vi_list[i] != NULL)
-            sema_up(&(vi_list[i]->moved));
+            sema_up(&vi_list[i]->stop);
     }
 }
 
@@ -24,6 +25,10 @@ static int is_finished() {
     return (ret == 0);
 }
 
+static int is_empty_waiter(struct semaphore *sem) {
+    return list_empty(&sem->waiters);
+}
+
 void check_unitstep() {
     int i;
     char flag;
@@ -33,7 +38,7 @@ void check_unitstep() {
 
         for (i=0; i<vi_cnt; i++) {
             // Vehicle that have not yet moved 
-            if (vi_list[i] != NULL && vi_list[i]->state != VEHICLE_STATUS_FINISHED && vi_list[i]->moved.value == 1) {
+            if (vi_list[i] != NULL && vi_list[i]->state != VEHICLE_STATUS_FINISHED && !is_empty_waiter(&vi_list[i]->stop)) {
                 flag = 0;
             }
         }

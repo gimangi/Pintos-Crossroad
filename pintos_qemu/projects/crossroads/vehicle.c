@@ -95,7 +95,7 @@ static int try_move(int start, int dest, int step, struct vehicle_info *vi)
 
 	
 	if (vi->map_locks[pos_next.row][pos_next.col].semaphore.value < 1)
-		sema_down(&(vi->moved));
+		sema_down(&vi->stop);
 	/* lock next position */
 	lock_acquire(&vi->map_locks[pos_next.row][pos_next.col]);
 	if (vi->state == VEHICLE_STATUS_READY) {
@@ -107,8 +107,6 @@ static int try_move(int start, int dest, int step, struct vehicle_info *vi)
 	}
 	/* update position */
 	vi->position = pos_next;
-
-	sema_down(&vi->moved);
 
 	return 1;
 }
@@ -154,7 +152,7 @@ void vehicle_loop(void *_vi)
 	vi->allow_dir = UNDEFINED;
 
 	/* semaphore for moving in a unitstep */
-	sema_init(&(vi->moved), 0);
+	sema_init(&vi->stop, 0);
 	/* save to vi_list */
 	vi_list[vi_cnt++] = vi;
 
@@ -177,6 +175,8 @@ void vehicle_loop(void *_vi)
 		if (res == 0) {
 			break;
 		}
+
+		sema_down(&vi->stop);
 
 	}	
 
