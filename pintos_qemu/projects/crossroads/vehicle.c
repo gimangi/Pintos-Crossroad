@@ -157,6 +157,10 @@ void vehicle_loop(void *_vi)
 	vi_list[vi_cnt++] = vi;
 
 	step = 0;
+
+	/* first unitstep */
+	sema_down(&vi->stop);
+
 	while (1) {
 
 		/* Do not move until the unitstep has progressed */
