@@ -81,12 +81,12 @@ vi->debug=9;
     }
 
     sema_down(&sem_first);
-    if (sem_left.value == 1 && sem_right.value == 1 && sem_opp.value == 1) {
-        allowed_list[vi->start-'A'] = vi;
-        entered = vi;
-        vi->allow_dir = FIRST;
-        //sema_down(&vi->moved);
+    while (!(sem_left.value == 1 && sem_right.value == 1 && sem_opp.value == 1)) {
+        sema_down(&vi->stop);
     }
+    allowed_list[vi->start-'A'] = vi;
+    entered = vi;
+    vi->allow_dir = FIRST;
 
 
     /* vehicle is in intersection */
