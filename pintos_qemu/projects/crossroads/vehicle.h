@@ -8,10 +8,9 @@
 #define VEHICLE_STATUS_RUNNING	1
 #define VEHICLE_STATUS_FINISHED	2
 
-#define UNDEFINED 0
-#define OPPOITE 1
-#define LEFT 2
-#define RIGHT 3
+enum allow_dirs {
+	UNDEFINED, FIRST, OPPOITE, LEFT, RIGHT
+};
 
 struct vehicle_info {
 	char id;
