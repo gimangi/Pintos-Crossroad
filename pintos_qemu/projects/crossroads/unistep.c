@@ -15,17 +15,7 @@ static void release_move() {
     }
 }
 
-static int is_finished() {
-    int i;
-    int ret = vi_cnt;
-    for (i=0; i<vi_cnt; i++) {
-        if (vi_list[i] != NULL && vi_list[i]->state == VEHICLE_STATUS_FINISHED)
-            ret--;
-    }
-    return (ret == 0);
-}
-
-int is_empty_waiter(struct semaphore *sem) {
+int stopped(struct semaphore *sem) {
     return list_empty(&sem->waiters);
 }
 
@@ -38,7 +28,7 @@ void check_unitstep() {
 
         for (i=0; i<vi_cnt; i++) {
             // Vehicle that have not yet moved 
-            if (vi_list[i] != NULL && vi_list[i]->state == VEHICLE_STATUS_RUNNING && is_empty_waiter(&vi_list[i]->stop)) {
+            if (vi_list[i] != NULL && vi_list[i]->state == VEHICLE_STATUS_RUNNING && !stppoed(&vi_list[i]->stop)) {
                 flag = 0;
             }
         }
