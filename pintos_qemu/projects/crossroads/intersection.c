@@ -45,17 +45,7 @@ void wait_intersect(struct vehicle_info *vi) {
         thread_set_priority(thread_get_priority() + 1);
     }
 vi->debug = 3;
-    /* vehicle is in intersection */
-    if (is_sem_all_ready) {
-        /* actual moved */
-        sema_down(&vi->moved);
-        sema_down(&sem_first);
-        allowed_list[vi->start-'A'] = vi;
-        entered = vi;
-        vi->allow_dir = FIRST;
-        return;
-    }
-vi->debug=4;
+    
     /* When a vehicle that has already entered exists, additional entry is possible */
     if ( entered != NULL && allow_direction(entered, vi) ) {
 vi->debug=5;
@@ -65,7 +55,6 @@ vi->debug=5;
             sema_down(&sem_left);
             allowed_list[vi->start-'A'] = vi;
             vi->allow_dir = LEFT;
-            //return;
         }
         // vi is to the right of the entered
         else if (sem_right.value == 1 && vi->start == get_right(entered->start) && allow_enter(vi)) {
@@ -73,7 +62,6 @@ vi->debug=5;
             sema_down(&sem_right);
             allowed_list[vi->start-'A'] = vi;
             vi->allow_dir = RIGHT;
-            //return;
         }
         // vi is to the opposite of the entered
         else if (sem_opp.value == 1 && vi->start == get_opposite(entered->start) && allow_enter(vi)) {
@@ -81,11 +69,33 @@ vi->debug=5;
             sema_down(&sem_opp);
             allowed_list[vi->start-'A'] = vi;
             vi->allow_dir = OPPOITE;
-            //return;
         }
+        return;
     }
 vi->debug=9;
-    sema_down(&vi->moved);
+
+    sema_down(&sem_first);
+    if (sem_left.value == 1 && sem_right.value == 1 && sem_opp.value == 1) {
+        allowed_list[vi->start-'A'] = vi;
+        entered = vi;
+        vi->allow_dir = FIRST;
+        sema_down(&vi->moved);
+    }
+
+
+    /* vehicle is in intersection */
+    //if (is_sem_all_ready) {
+        /* actual moved */
+    /*    sema_down(&vi->moved);
+        sema_down(&sem_first);
+        allowed_list[vi->start-'A'] = vi;
+        entered = vi;
+        vi->allow_dir = FIRST;
+        return;
+    } 최근꺼*/
+    
+
+
     /*
     // will blocked
     if (sem_first.value < 1)
