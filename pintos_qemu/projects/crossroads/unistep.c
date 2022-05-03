@@ -16,7 +16,7 @@ static void release_move() {
 }
 
 int stopped(struct semaphore *sem) {
-    return list_empty(&sem->waiters);
+    return !list_empty(&sem->waiters);
 }
 
 void check_unitstep() {
