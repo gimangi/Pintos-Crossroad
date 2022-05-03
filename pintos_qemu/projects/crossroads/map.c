@@ -70,7 +70,8 @@ void map_draw(void)
 			printf("[%d]-mv%d-st%d ", i, vi_list[i]->moved.value, vi_list[i]->state);
 	}
 	printf("\n");
-	printf("cur thread: %s", thread_current()->name);
+	printf("cur thread: %s\n", thread_current()->name);
+	printf("intersection sem: first %d opp %d left %d right %d\n", sem_first.value, sem_opp.value, sem_left.value, sem_right.value);
 	// ~debug
 	gotoxy(0, 0);
 }
