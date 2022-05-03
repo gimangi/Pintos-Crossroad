@@ -94,8 +94,9 @@ static int try_move(int start, int dest, int step, struct vehicle_info *vi)
 	vi->debug=10;
 
 	
-	if (vi->map_locks[pos_next.row][pos_next.col].semaphore.value < 1)
+	while (vi->map_locks[pos_next.row][pos_next.col].semaphore.value < 1) {
 		sema_down(&vi->stop);
+	}
 	/* lock next position */
 	lock_acquire(&vi->map_locks[pos_next.row][pos_next.col]);
 	if (vi->state == VEHICLE_STATUS_READY) {
