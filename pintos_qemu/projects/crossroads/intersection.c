@@ -70,6 +70,7 @@ vi->debug=5;
             allowed_list[vi->start-'A'] = vi;
             vi->allow_dir = OPPOITE;
         }
+        sema_down(&vi->moved);
         return;
     }
 vi->debug=9;

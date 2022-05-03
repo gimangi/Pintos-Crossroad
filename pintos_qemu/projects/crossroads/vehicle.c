@@ -108,6 +108,8 @@ static int try_move(int start, int dest, int step, struct vehicle_info *vi)
 	/* update position */
 	vi->position = pos_next;
 
+	sema_down(&vi->moved);
+
 	return 1;
 }
 
@@ -165,7 +167,6 @@ void vehicle_loop(void *_vi)
 		
 		/* vehicle main code */
 		res = try_move(start, dest, step, vi);
-		sema_down(&(vi->moved));
 		
 
 		if (res == 1) {
