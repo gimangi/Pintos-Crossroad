@@ -67,7 +67,7 @@ void map_draw(void)
 	printf("vi_list.moved: ");
 	for (int i=0; i<vi_cnt; i++) {
 		if (vi_list[i] != NULL)
-			printf("[%d]-mv:%d-st:%d-alloweddir:%d-debug:%d\n", i, vi_list[i]->moved.value, vi_list[i]->state, vi_list[i]->allow_dir, v_list[i]->debug);
+			printf("[%d]-mv:%d-st:%d-alloweddir:%d-debug:%d\n", i, vi_list[i]->moved.value, vi_list[i]->state, vi_list[i]->allow_dir, vi_list[i]->debug);
 	}
 	printf("\n");
 	printf("cur thread: %s\n", thread_current()->name);
