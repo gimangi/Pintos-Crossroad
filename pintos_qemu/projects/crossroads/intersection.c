@@ -74,10 +74,12 @@ vi->debug=5;
     }
 vi->debug=9;
 
-    // will blocked
-    if (sem_first.value < 1)
-        sema_down(&vi->moved);
-        
+    // blocked by intersection
+    while (sem_first.value < 1) {
+        if (vi->moved.value == 1)
+            sema_down(&vi->moved);
+    }
+
     sema_down(&sem_first);
     if (sem_left.value == 1 && sem_right.value == 1 && sem_opp.value == 1) {
         allowed_list[vi->start-'A'] = vi;
