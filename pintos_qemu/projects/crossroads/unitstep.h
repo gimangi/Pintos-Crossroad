@@ -11,5 +11,4 @@ int vi_cnt;
 
 void init_unitstep();
 void check_unitstep();
-int stopped(struct semaphore *sem);
 void step_point(struct vehicle_info *vi);
