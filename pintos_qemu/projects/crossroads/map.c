@@ -51,30 +51,6 @@ void map_draw(void)
 		printf("\n");
 	}
 	printf("unit step: %d\n", crossroads_step);
-
-	// debug
-	/*
-	if (entered != NULL)
-		printf("entered: %c\n", entered->id);
-	if (allowed_list[0] != NULL)
-		printf("allowed A: %c\n", allowed_list[0]->id);
-		if (allowed_list[1] != NULL)
-		printf("allowed B: %c\n", allowed_list[1]->id);
-		if (allowed_list[2] != NULL)
-		printf("allowed C: %c\n", allowed_list[2]->id);
-		if (allowed_list[3] != NULL)
-		printf("allowed D: %c\n", allowed_list[3]->id);
-	
-	printf("vi_list.moved: ");
-	for (int i=0; i<vi_cnt; i++) {
-		if (vi_list[i] != NULL)
-			printf("[%c]-stop:%d-st:%d-alloweddir:%d-debug:%d\n", vi_list[i]->id, !stopped(&vi_list[i]->stop), vi_list[i]->state, vi_list[i]->allow_dir, vi_list[i]->debug);
-	}
-	printf("\n");
-	printf("cur thread: %s\n", thread_current()->name);
-	printf("intersection sem: first %d opp %d left %d right %d\n", sem_first.value, sem_opp.value, sem_left.value, sem_right.value);
-	*/
-	// ~debug
 	gotoxy(0, 0);
 }
 

@@ -15,7 +15,7 @@ static void release_move() {
     }
 }
 
-int stopped(struct semaphore *sem) {
+static int stopped(struct semaphore *sem) {
     return !list_empty(&sem->waiters);
 }
 
@@ -23,16 +23,11 @@ void init_unitstep() {
     /* init unitstep thread by main */
     sema_init(&sem_unitstep, 0);
 	thread_create("unitstep", PRI_UNISTEP, check_unitstep, NULL);
-    thread_unitstep = NULL;
 }
 
 void check_unitstep() {
     int i;
     char flag;
-
-    /* save unitstep thread pointer */
-    if (thread_unitstep == NULL)
-        thread_unitstep = thread_current();
 
     while (1) {
         flag = 1;

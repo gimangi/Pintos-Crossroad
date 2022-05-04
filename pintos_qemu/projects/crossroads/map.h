@@ -4,8 +4,6 @@
 #include <stdio.h>
 #include "projects/crossroads/position.h"
 #include "threads/synch.h"
-// debug
-#include "threads/thread.h"
 
 extern int crossroads_step;
 bool released;

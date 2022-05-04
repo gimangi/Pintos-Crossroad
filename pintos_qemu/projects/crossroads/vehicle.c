@@ -66,8 +66,6 @@ static int try_move(int start, int dest, int step, struct vehicle_info *vi)
 	pos_next = vehicle_path[start][dest][step];
 	pos_cur = vi->position;
 
-	vi->debug = 1;
-
 	if (vi->state == VEHICLE_STATUS_RUNNING) {
 		/* check termination */
 		if (is_position_outside(pos_next)) {
@@ -79,9 +77,6 @@ static int try_move(int start, int dest, int step, struct vehicle_info *vi)
 		}
 	}
 
-
-	vi->debug = 2;
-
 	/* check enter the intersection area */
 	if (!is_intersect(pos_cur) && is_intersect(pos_next)) {
 		wait_intersect(vi);
@@ -90,9 +85,6 @@ static int try_move(int start, int dest, int step, struct vehicle_info *vi)
 	else if (is_intersect(pos_cur) && !is_intersect(pos_next)) {
 		signal_intersect(vi);
 	}
-
-	vi->debug=10;
-
 	
 	while (vi->map_locks[pos_next.row][pos_next.col].semaphore.value < 1) {
 		step_point(vi);
@@ -161,9 +153,6 @@ void vehicle_loop(void *_vi)
 	step_point(vi);
 
 	while (1) {
-
-		/* Do not move until the unitstep has progressed */
-		vi->debug = 0;
 		
 		/* vehicle main code */
 		res = try_move(start, dest, step, vi);
@@ -178,6 +167,7 @@ void vehicle_loop(void *_vi)
 			break;
 		}
 
+		/* Do not move until the unitstep has progressed */
 		step_point(vi);
 
 	}	

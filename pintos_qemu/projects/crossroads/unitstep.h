@@ -5,7 +5,6 @@
 
 #define PRI_UNISTEP 20
 
-struct thread *thread_unitstep;
 struct semaphore sem_unitstep;
 struct vehicle_info **vi_list;
 int vi_cnt;
