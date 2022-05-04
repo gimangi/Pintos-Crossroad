@@ -163,7 +163,6 @@ void vehicle_loop(void *_vi)
 	while (1) {
 
 		/* Do not move until the unitstep has progressed */
-		//sema_down(&(vi->moved));
 		vi->debug = 0;
 		
 		/* vehicle main code */

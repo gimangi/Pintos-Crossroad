@@ -41,16 +41,18 @@ int is_intersect(struct position pos) {
 void wait_intersect(struct vehicle_info *vi) {
 
     /* vehicle going straight have priority */
+    /*
     if (is_straight(vi)) {
         thread_set_priority(thread_get_priority() + 1);
     }
+    */
 vi->debug = 3;
     
     /* When a vehicle that has already entered exists, additional entry is possible */
-    if ( entered != NULL && allow_direction(entered, vi) ) {
+    if ( entered != NULL && allow_enter(vi) ) {
 vi->debug=5;
         // vi is to the left of the enterted
-        if (sem_left.value == 1 && vi->start == get_left(entered->start) && allow_enter(vi)) {
+        if (sem_left.value == 1 && vi->start == get_left(entered->start)) {
             vi->debug=6;
             sema_down(&sem_left);
             allowed_list[vi->start-'A'] = vi;
@@ -58,7 +60,7 @@ vi->debug=5;
             return;
         }
         // vi is to the right of the entered
-        else if (sem_right.value == 1 && vi->start == get_right(entered->start) && allow_enter(vi)) {
+        else if (sem_right.value == 1 && vi->start == get_right(entered->start)) {
             vi->debug=7;
             sema_down(&sem_right);
             allowed_list[vi->start-'A'] = vi;
@@ -66,7 +68,7 @@ vi->debug=5;
             return;
         }
         // vi is to the opposite of the entered
-        else if (sem_opp.value == 1 && vi->start == get_opposite(entered->start) && allow_enter(vi)) {
+        else if (sem_opp.value == 1 && vi->start == get_opposite(entered->start)) {
             vi->debug=8;
             sema_down(&sem_opp);
             allowed_list[vi->start-'A'] = vi;
