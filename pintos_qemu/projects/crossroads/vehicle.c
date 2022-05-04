@@ -159,7 +159,7 @@ void vehicle_loop(void *_vi)
 
 	step = 0;
 
-	step_point(vi);
+	//step_point(vi);
 
 	while (1) {
 
