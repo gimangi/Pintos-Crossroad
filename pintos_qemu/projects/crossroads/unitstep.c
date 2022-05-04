@@ -35,9 +35,6 @@ void check_unitstep() {
         thread_unitstep = thread_current();
 
     while (1) {
-        // prevent busy wait 
-        //sema_down(&sem_unitstep);
-
         flag = 1;
 
         for (i=0; i<vi_cnt; i++) {
@@ -60,6 +57,9 @@ void check_unitstep() {
             
         }
 
+        // prevent busy wait 
+        sema_down(&sem_unitstep);
+
     }
 }
 
@@ -67,6 +67,6 @@ void step_point(struct vehicle_info *vi) {
     /* may run by vehicle thread */
     ASSERT (vi != NULL);
 
-    //sema_up(&sem_unitstep);
+    sema_up(&sem_unitstep);
     sema_down(&vi->stop);
 }
