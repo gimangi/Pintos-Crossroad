@@ -121,8 +121,7 @@ void init_on_mainthread(int thread_cnt){
 	vi_list = malloc(sizeof(struct vehicle_info*) * thread_cnt);
 
 	/* unistep check thread */
-	sema_init(&sem_unitstep, 0);
-	thread_create("unitstep", PRI_UNISTEP, check_unitstep, NULL);
+	init_unitstep();
 
 	/* vehicles enter the intersection */
 	entered = NULL;
