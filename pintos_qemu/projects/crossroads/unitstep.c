@@ -39,7 +39,7 @@ void check_unitstep() {
 
         for (i=0; i<vi_cnt; i++) {
             // Vehicle that have not yet moved 
-            if (vi_list[i] != NULL && vi_list[i]->state == VEHICLE_STATUS_RUNNING && !stopped(&vi_list[i]->stop)) {
+            if (vi_list[i] != NULL && vi_list[i]->state != VEHICLE_STATUS_FINISHED && !stopped(&vi_list[i]->stop)) {
                 flag = 0;
             }
         }
