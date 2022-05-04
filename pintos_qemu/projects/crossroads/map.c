@@ -53,7 +53,7 @@ void map_draw(void)
 	printf("unit step: %d\n", crossroads_step);
 
 	// debug
-	
+	/*
 	if (entered != NULL)
 		printf("entered: %c\n", entered->id);
 	if (allowed_list[0] != NULL)
@@ -73,7 +73,7 @@ void map_draw(void)
 	printf("\n");
 	printf("cur thread: %s\n", thread_current()->name);
 	printf("intersection sem: first %d opp %d left %d right %d\n", sem_first.value, sem_opp.value, sem_left.value, sem_right.value);
-	
+	*/
 	// ~debug
 	gotoxy(0, 0);
 }
